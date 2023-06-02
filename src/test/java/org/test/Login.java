@@ -31,7 +31,6 @@ public class Login {
 
         textBoxUsername.sendKeys(username);
         textBoxPassword.sendKeys(password);
-
         loginButton.click();
 
         WebElement greenBannerLoginSuccess = driver.findElement(By.id("flash"));
@@ -45,12 +44,24 @@ public class Login {
     }
     @Test
     public void loginCookieTest() {
-        driver.manage().addCookie(new Cookie("rack.session", "BAh7CkkiD3Nlc3Npb25faWQGOgZFVEkiRWIyYjM5NDg5NzZmNzlhMTU1Yjc3%0AYWUzNmFiMjUzNDcyZWE5ZjEyNzZiMGU4NzBjYTY1NTI4M2FmMGNiYjRiNGMG%0AOwBGSSIJY3NyZgY7AEZJIiVkNmMyYjU1Y2QxMzFkYThiZjAyMjZlYmY5NjNl%0AOGFhMQY7AEZJIg10cmFja2luZwY7AEZ7B0kiFEhUVFBfVVNFUl9BR0VOVAY7%0AAFRJIi1jZmVkZDllYTczYWNiOWU2YmYxYjExNjE0OTFjZWYyYTA2NjYyMDc0%0ABjsARkkiGUhUVFBfQUNDRVBUX0xBTkdVQUdFBjsAVEkiLTIwZmY2ZWFjYTA1%0AN2YxMTQ4ZDdiYzRmMDQzNTY1MGVjMTI3N2FjYzAGOwBGSSIKZmxhc2gGOwBG%0AewBJIg11c2VybmFtZQY7AEZJIg10b21zbWl0aAY7AFQ%3D%0A--14f36bb3b4d6033d0d62a44eab8e32d67d3b191d"));
-        driver.get("https://the-internet.herokuapp.com/secure");
+        String username = "tomsmith";
+        String password = "SuperSecretPassword!";
 
-        WebElement greenBannerLoginSuccess = driver.findElement(By.id("flash"));
-        String loginSuccessText = greenBannerLoginSuccess.getText();
-        loginSuccessText = loginSuccessText.substring(0,loginSuccessText.length()-2);
-        assertEquals("You logged into a secure area!", loginSuccessText);
+        WebElement textBoxUsername = driver.findElement(By.id("username"));
+        WebElement textBoxPassword = driver.findElement(By.id("password"));
+        WebElement loginButton = driver.findElement(By.className("fa-sign-in"));
+
+        textBoxUsername.sendKeys(username);
+        textBoxPassword.sendKeys(password);
+
+        loginButton.click();
+        Cookie loginCookie = driver.manage().getCookieNamed("rack.session");
+        WebElement logoutButton = driver.findElement(By.className("icon-signout"));
+        logoutButton.click();
+        driver.manage().deleteCookieNamed("rack.session");
+        driver.manage().addCookie(loginCookie);
+        driver.get("https://the-internet.herokuapp.com/secure");
+        WebElement textSecurePage = driver.findElement(By.className("subheader"));
+        assertEquals("Welcome to the Secure Area. When you are done click logout below.", textSecurePage.getText());
     }
 }
