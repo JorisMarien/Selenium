@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="Cucumber" time="10.164" tests="1" skipped="0" failures="0" errors="0">
-<testcase classname="Am I logged in?" name="login - Example #1.1" time="9.968">
+<testsuite name="Cucumber" time="10.006" tests="1" skipped="0" failures="0" errors="0">
+<testcase classname="Am I logged in?" name="login - Example #1.1" time="9.874">
 <system-out><![CDATA[
 Given I am on the login page................................................passed
 When I type "tomsmith" and "SuperSecretPassword!"...........................passed
